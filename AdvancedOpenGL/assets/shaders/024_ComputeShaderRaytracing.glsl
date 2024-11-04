@@ -10,7 +10,7 @@ void main() {
   ivec2 pixel_coords = ivec2(gl_GlobalInvocationID.xy);
   
   // Hard coded scene
-  vec3 sphere_c = vec3(0.0, 0.0, -10.0);
+   vec3 sphere_c;
   float sphere_r = 1.0;
 
   float max_x = 5.0;
@@ -21,15 +21,22 @@ void main() {
   vec3 ray_o = vec3(x * max_x, y * max_y, 0.0);
   vec3 ray_d = vec3(0.0, 0.0, -1.0); // ortho
 
-  vec3 omc = ray_o - sphere_c;
-  float b = dot(ray_d, omc);
+  // This
+  vec3 omc = sphere_c - ray_o;
+  float a = dot(ray_d, ray_d);
+  float b = -2 * dot(ray_d, omc);
   float c = dot(omc, omc) - sphere_r * sphere_r;
-  float bsqmc = b * b - c;
+  float bsqmc = b * b - 4 * a * c;
+
   // Hit one or both sides
-  if (bsqmc >= 0.0) {
+  if (bsqmc >= 0.0) 
+  {
+    //vec3 N = vec3(ray_o-vec3(0,0,-1))
+    //pixel = 0.5*vec4(N+1)
     pixel = vec4(0.4, 0.4, 1.0, 1.0);
   }
   
+
   // Output to a specific pixel in the image
   imageStore(img_output, pixel_coords, pixel);
 }

@@ -119,8 +119,20 @@ void Scene_024_ComputeShaderRaytracing::load() {
     renderShader = Assets::getShader(SHADER_ID(SHADER_NAME));
 }
 
-void Scene_024_ComputeShaderRaytracing::update(float dt) {
-
+void Scene_024_ComputeShaderRaytracing::update(float dt) 
+{
+    // Move the sphere
+    float m = dt;
+    if (m<=-1 || m == 0)
+    {
+        m++;
+    }
+    else if (m>=1)
+    {
+        m--;
+    }
+    computeShader.use();
+    computeShader.setVector3f("sphere_c", Vector3{0.0, 0.0, -10.0});
 }
 
 void Scene_024_ComputeShaderRaytracing::draw()
